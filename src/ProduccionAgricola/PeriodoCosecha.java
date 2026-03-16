@@ -3,49 +3,43 @@ package ProduccionAgricola;
 public class PeriodoCosecha {
 
     private String nombrePeriodo;
-    private double TonEstimadasPorHectarea;
-    private Fruta fruta;
+    private double TonPorHect;
 
-    public PeriodoCosecha(String nombrePeriodo, double cantidadEstimadaTonPorHectarea, Fruta f) {
+    public PeriodoCosecha(String nombrePeriodo, double cantidadEstimadaTonPorHectarea) {
         this.nombrePeriodo = nombrePeriodo;
-        this.TonEstimadasPorHectarea = cantidadEstimadaTonPorHectarea;
-        this.fruta = f;
-        fruta.agregarPeriodo(this);
+        this.TonPorHect = cantidadEstimadaTonPorHectarea;}
+
+    public double calcularProduccionTotal(Fruta fruta)
+    {
+        return fruta.getExtensionHect() * TonPorHect;
     }
 
-    // Getters
+    public double calcularCostoTotal(Fruta fruta)
+    {
+        return calcularProduccionTotal(fruta) * fruta.getCostoProduccionPorTon();
+    }
+
+    public double calcularGananciaEstimada(Fruta fruta)
+    {
+        return calcularProduccionTotal(fruta) * fruta.getPrecioVentaPorTon() - calcularCostoTotal(fruta);
+    }
+
+    public void setTonPorHect (double toneladas){this.TonPorHect = toneladas;}
+
+
     public String getNombrePeriodo() {
         return nombrePeriodo;
     }
 
-    public double getTonEstimadasPorHectarea() {
-        return TonEstimadasPorHectarea;
-    }
-
-    // Cálculos
-
-    public double calcularProduccionTotal(double hectareas) {
-        return hectareas * TonEstimadasPorHectarea;
-    }
-
-    public double calcularCostoTotal(double hectareas, double costoTon)
-    {
-        return calcularProduccionTotal(hectareas) * costoTon;
-    }
-
-    public double calcularGananciaEstimada(double hectareas, double costoTon, double precioTon)
-    {
-        double ingreso = calcularProduccionTotal(hectareas) * precioTon;
-        double costo = calcularProduccionTotal(hectareas) * costoTon;
-
-        return ingreso - costo;
+    public double getTonPorHect() {
+        return TonPorHect;
     }
 
     @Override
     public String toString() {
         return "PeriodoCosecha{" +
                 "nombrePeriodo='" + nombrePeriodo + '\'' +
-                ", TonEstimadasPorHectarea=" + TonEstimadasPorHectarea +
+                ", TonEstimadasPorHectarea=" + TonPorHect +
                 '}';
     }
 }

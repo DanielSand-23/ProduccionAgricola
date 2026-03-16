@@ -7,41 +7,19 @@ public class Fruta {
 
     private String nombre;
     private double extensionHect;
-    private double costoProduccionPromedioTon;
-    private double precioVentaPromedioTon;
+    private double costoProduccionPorTon;
+    private double precioVentaPorTon;
     private List<PeriodoCosecha> periodos;
 
     public Fruta(String nombre, double extensionHectareas, double costoProduccionPromedioTon, double precioVentaPromedioTon) {
 
         this.nombre = nombre;
         this.extensionHect = extensionHectareas;
-        this.costoProduccionPromedioTon = costoProduccionPromedioTon;
-        this.precioVentaPromedioTon = precioVentaPromedioTon;
+        this.costoProduccionPorTon = costoProduccionPromedioTon;
+        this.precioVentaPorTon = precioVentaPromedioTon;
         this.periodos = new ArrayList<>();
     }
 
-    // Getters
-    public String getNombre() {
-        return nombre;
-    }
-
-    public double getExtensionHect() {
-        return extensionHect;
-    }
-
-    public double getCostoProduccionPromedioTon() {
-        return costoProduccionPromedioTon;
-    }
-
-    public double getPrecioVentaPromedioTon() {
-        return precioVentaPromedioTon;
-    }
-
-    public List<PeriodoCosecha> getPeriodos() {
-        return periodos;
-    }
-
-    // Métodos de gestión
     public void agregarPeriodo(PeriodoCosecha periodo) {
         periodos.add(periodo);
     }
@@ -50,14 +28,32 @@ public class Fruta {
         periodos.remove(periodo);
     }
 
+    public void setExtensionHect (double hectareas){this.extensionHect = hectareas;}
+
+    public  void setCostoProduccionPorTon (double costo){this.costoProduccionPorTon = costo;}
+
+    public void setPrecioVentaPorTon (double precio){this.precioVentaPorTon = precio;}
+
+    public String getNombre() {return nombre;}
+
+    public double getExtensionHect() {return extensionHect;}
+
+    public double getCostoProduccionPorTon() {return costoProduccionPorTon;}
+
+    public double getPrecioVentaPorTon() {
+        return precioVentaPorTon;
+    }
+
+    public List<PeriodoCosecha> getPeriodos() {return periodos;}
+
     @Override
     public String toString() {
         return "Fruta{" +
                 "nombre='" + nombre + '\'' +
                 ", extensionHect=" + extensionHect +
-                ", costoProduccionPromedioTon=" + costoProduccionPromedioTon +
-                ", precioVentaPromedioTon=" + precioVentaPromedioTon +
-                ", periodos=" + getPeriodos() +
+                ", costoProduccionPorTon=" + costoProduccionPorTon +
+                ", precioVentaPorTon=" + precioVentaPorTon +
+                ", periodos=" + periodos +
                 '}';
     }
 }
