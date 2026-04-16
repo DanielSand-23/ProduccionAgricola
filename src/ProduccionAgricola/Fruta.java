@@ -1,15 +1,23 @@
 package ProduccionAgricola;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-public class Fruta {
+public class Fruta implements Comparable <Fruta> {
 
     private String nombre;
     private double extensionHect;
     private double costoProduccionPorTon;
     private double precioVentaPorTon;
     private List<PeriodoCosecha> periodos;
+
+    private static Comparator<Fruta> c = new Comparator<Fruta>() {
+        public int compare(Fruta o1, Fruta o2) {
+            return o1.compareTo(o2);
+        }
+    };
 
     public Fruta(String nombre, double extensionHectareas, double costoProduccionPromedioTon, double precioVentaPromedioTon) {
 
@@ -55,5 +63,34 @@ public class Fruta {
                 ", precioVentaPorTon=" + precioVentaPorTon +
                 ", periodos=" + periodos +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Fruta fruta)) return false;
+        return Double.compare(extensionHect, fruta.extensionHect) == 0 && Double.compare(costoProduccionPorTon, fruta.costoProduccionPorTon) == 0 && Double.compare(precioVentaPorTon, fruta.precioVentaPorTon) == 0 && Objects.equals(nombre, fruta.nombre) && Objects.equals(periodos, fruta.periodos);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(nombre);
+        result = 31 * result + Double.hashCode(extensionHect);
+        result = 31 * result + Double.hashCode(costoProduccionPorTon);
+        result = 31 * result + Double.hashCode(precioVentaPorTon);
+        result = 31 * result + Objects.hashCode(periodos);
+
+        return result;
+    }
+
+    @Override
+    public int compareTo(Fruta o) {
+        int r = 0;
+        if ((r=this.nombre.compareTo(o.nombre))!=0)
+            return r;
+        if ((r=Double.compare(this.extensionHect, o.extensionHect))!=0)
+            return r;
+        if ((r=Double.compare(this.costoProduccionPorTon, o.costoProduccionPorTon))!=0)
+            return r;
+        return Double.compare(this.precioVentaPorTon, o.precioVentaPorTon);
     }
 }

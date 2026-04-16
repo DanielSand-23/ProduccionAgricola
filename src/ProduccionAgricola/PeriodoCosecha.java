@@ -1,9 +1,17 @@
 package ProduccionAgricola;
+import java.util.Comparator;
+import java.util.Objects;
 
-public class PeriodoCosecha {
+public class PeriodoCosecha implements Comparable <PeriodoCosecha> {
 
     private String nombrePeriodo;
     private double TonPorHect;
+
+    private static Comparator <PeriodoCosecha> c = new Comparator<PeriodoCosecha>() {
+        public int compare(PeriodoCosecha o1, PeriodoCosecha o2) {
+            return o1.compareTo(o2);
+        }
+    };
 
     public PeriodoCosecha(String nombrePeriodo, double cantidadEstimadaTonPorHectarea) {
         this.nombrePeriodo = nombrePeriodo;
@@ -41,5 +49,26 @@ public class PeriodoCosecha {
                 "nombrePeriodo='" + nombrePeriodo + '\'' +
                 ", TonEstimadasPorHectarea=" + TonPorHect +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PeriodoCosecha that)) return false;
+        return Double.compare(TonPorHect, that.TonPorHect) == 0 && Objects.equals(nombrePeriodo, that.nombrePeriodo);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(nombrePeriodo);
+        result = 31 * result + Double.hashCode(TonPorHect);
+        return result;
+    }
+
+    @Override
+    public int compareTo(PeriodoCosecha o) {
+        int r=0;
+        if((r=this.nombrePeriodo.compareTo(o.nombrePeriodo))!=0)
+            return r;
+        return Double.compare(TonPorHect, o.TonPorHect);
     }
 }
