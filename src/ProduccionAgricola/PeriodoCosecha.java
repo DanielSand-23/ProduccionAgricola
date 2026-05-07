@@ -1,4 +1,6 @@
 package ProduccionAgricola;
+import Excepciones.ExcepcionCosechaEstimadaFueraDeLimites;
+
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -7,16 +9,25 @@ public class PeriodoCosecha implements Comparable <PeriodoCosecha> {
     private String nombrePeriodo;
     private double TonPorHect;
 
+    private final double MIN_EST_COSECHA = 0.5;
+    private final double MAX_EST_COSECHA = 200;
+
+
     private static Comparator <PeriodoCosecha> c = new Comparator<PeriodoCosecha>() {
         public int compare(PeriodoCosecha o1, PeriodoCosecha o2) {
             return o1.compareTo(o2);
         }
     };
 
-    public PeriodoCosecha(String nombrePeriodo, double cantidadEstimadaTonPorHectarea) {
-        this.nombrePeriodo = nombrePeriodo;
-        this.TonPorHect = cantidadEstimadaTonPorHectarea;}
-
+    public PeriodoCosecha(String nombrePeriodo, double cantidadEstimadaTonPorHectarea) throws ExcepcionCosechaEstimadaFueraDeLimites {
+        if (cantidadEstimadaTonPorHectarea >= MIN_EST_COSECHA && cantidadEstimadaTonPorHectarea <= MAX_EST_COSECHA)
+        {
+            this.nombrePeriodo = nombrePeriodo;
+            this.TonPorHect = cantidadEstimadaTonPorHectarea;
+        }
+        else
+            throw new ExcepcionCosechaEstimadaFueraDeLimites("La estimacion de toneladas por hectareas esta fuera de los limites");
+    }
     public double calcularProduccionTotal(Fruta fruta)
     {
         return fruta.getExtensionHect() * TonPorHect;
@@ -32,7 +43,13 @@ public class PeriodoCosecha implements Comparable <PeriodoCosecha> {
         return calcularProduccionTotal(fruta) * fruta.getPrecioVentaPorTon() - calcularCostoTotal(fruta);
     }
 
-    public void setTonPorHect (double toneladas){this.TonPorHect = toneladas;}
+    public void setTonPorHect (double toneladas) throws ExcepcionCosechaEstimadaFueraDeLimites
+    {
+        if (toneladas > MIN_EST_COSECHA && toneladas < MAX_EST_COSECHA)
+        this.TonPorHect = toneladas;
+        else
+            throw new ExcepcionCosechaEstimadaFueraDeLimites("La estimacion de toneladas por hectareas esta fuera de los limites");
+    }
 
 
     public String getNombrePeriodo() {
